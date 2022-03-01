@@ -19,14 +19,14 @@
             <strong> 00:00:00 </strong>
           </section>
 
-          <button>
+          <button @click="iniciar">
           <span class="icon">
             <i class="fas fa-play"></i>
           </span>
             <span>Play</span>
           </button>
 
-          <button>
+          <button @click="finalizar">
           <span class="icon">
             <i class="fas fa-stop"></i>
           </span>
@@ -46,6 +46,15 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'FormularioComponent',
+  methods: {
+    iniciar() {
+      console.log('Oi eu sou o Goku');
+    },
+
+    finalizar() {
+      console.log('Oi eu sou o Goku');
+    }
+  }
 });
 </script>
 
