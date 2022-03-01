@@ -1,12 +1,9 @@
-<template>
-  <main class="columns is-gapless is-multiline">
-    <div class="column is-one-quarters">
-      <BarraLateral/>
-    </div>
-    <div class="column is-three-quarters">
-      <Formulario/>
-    </div>
-  </main>
+<template lang="pug">
+main.columns.is-gapless.is-multiline
+  .column.is-one-quarters
+    BarraLateral
+  .column.is-three-quarters
+    Formulario
 </template>
 
 <script lang="ts">

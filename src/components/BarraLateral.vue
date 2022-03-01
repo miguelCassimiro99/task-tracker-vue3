@@ -1,9 +1,7 @@
-<template>
-  <header>
-    <h1>
-      <img src="../assets/logo.png" />
-    </h1>
-  </header>
+<template lang="pug">
+header
+  h1
+    img(src="../assets/logo.png")
 
 </template>
 
