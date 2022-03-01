@@ -1,6 +1,7 @@
 <template lang="pug">
 .box
   .columns
+
     .column.is-8(
       role="form"
       aria-label="Formulario para adicionar nova classe"
@@ -12,7 +13,7 @@
     .column
       .is-flex.is-justify-content-space-between.is-align-items-center
         section
-          strong 00:00:00
+          strong {{ tempoEmSegundos }}
         button(@click="iniciar")
           span.icon
             i.fas.fa-play
@@ -30,13 +31,24 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'FormularioComponent',
+  data() {
+    return {
+      tempoEmSegundos: 0,
+      isTracking: false,
+    }
+  },
+
   methods: {
     iniciar() {
-      console.log('Oi eu sou o Goku');
+      this.isTracking = true;
+
+      setInterval(() => {
+        this.tempoEmSegundos += 1;
+      }, 1000);
     },
 
     finalizar() {
-      console.log('Oi eu sou o Goku');
+      this.isTracking = false;
     }
   }
 });
