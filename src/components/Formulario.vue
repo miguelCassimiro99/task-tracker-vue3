@@ -12,7 +12,7 @@
     .column
       .is-flex.is-justify-content-space-between.is-align-items-center
         section
-          strong 00:00:00
+          strong {{ tempoDecorrido }}
         button(@click="iniciar")
           span.icon
             i.fas.fa-play
@@ -30,13 +30,28 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'FormularioComponent',
+  data() {
+    return {
+      tempoEmSegundos: 0,
+      cronometro: 0,
+    }
+  },
+
+  computed: {
+    tempoDecorrido(): string {
+      return new Date(this.tempoEmSegundos * 1000).toISOString().substr(11,8);
+    },
+  },
+
   methods: {
-    iniciar() {
-      console.log('Oi eu sou o Goku');
+    iniciar(): void {
+      this.cronometro = setInterval(() => {
+        this.tempoEmSegundos += 1;
+      }, 1000);
     },
 
-    finalizar() {
-      console.log('Oi eu sou o Goku');
+    finalizar(): void {
+      clearInterval(this.cronometro);
     }
   }
 });
