@@ -1,7 +1,6 @@
 <template lang="pug">
 .box
   .columns
-
     .column.is-8(
       role="form"
       aria-label="Formulario para adicionar nova classe"
@@ -13,7 +12,7 @@
     .column
       .is-flex.is-justify-content-space-between.is-align-items-center
         section
-          strong {{ tempoEmSegundos }}
+          strong {{ tempoDecorrido }}
         button(@click="iniciar")
           span.icon
             i.fas.fa-play
@@ -34,21 +33,25 @@ export default defineComponent({
   data() {
     return {
       tempoEmSegundos: 0,
-      isTracking: false,
+      cronometro: 0,
     }
   },
 
-  methods: {
-    iniciar() {
-      this.isTracking = true;
+  computed: {
+    tempoDecorrido(): string {
+      return new Date(this.tempoEmSegundos * 1000).toISOString().substr(11,8);
+    },
+  },
 
-      setInterval(() => {
+  methods: {
+    iniciar(): void {
+      this.cronometro = setInterval(() => {
         this.tempoEmSegundos += 1;
       }, 1000);
     },
 
-    finalizar() {
-      this.isTracking = false;
+    finalizar(): void {
+      clearInterval(this.cronometro);
     }
   }
 });
