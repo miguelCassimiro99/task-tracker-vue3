@@ -8,50 +8,31 @@
       input(
         class="input"
         placeholder="Qual task deseja cronometrar?"
+        v-model="descricaoDaTarefa"
       )
     .column
-      .is-flex.is-justify-content-space-between.is-align-items-center
-        section
-          strong {{ tempoDecorrido }}
-        button(@click="iniciar")
-          span.icon
-            i.fas.fa-play
-          span play
-        button(@click="finalizar")
-          span.icon
-            i.fas.fa-stop
-          span stop
-
+      Temporizador(@aoTemporizadorFinalizado="finalizarTarefa")
 
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import Temporizador from "@/components/Temporizador.vue";
 
 export default defineComponent({
   name: 'FormularioComponent',
+  components: {
+    Temporizador,
+  },
   data() {
     return {
-      tempoEmSegundos: 0,
-      cronometro: 0,
+      descricaoDaTarefa: '',
     }
   },
-
-  computed: {
-    tempoDecorrido(): string {
-      return new Date(this.tempoEmSegundos * 1000).toISOString().substr(11,8);
-    },
-  },
-
   methods: {
-    iniciar(): void {
-      this.cronometro = setInterval(() => {
-        this.tempoEmSegundos += 1;
-      }, 1000);
-    },
-
-    finalizar(): void {
-      clearInterval(this.cronometro);
+    finalizarTarefa(tempoDecorrido: number): void {
+      console.log(tempoDecorrido);
+      this.descricaoDaTarefa = '';
     }
   }
 });

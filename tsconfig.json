@@ -13,6 +13,7 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "noEmitOnError": true,
+    "strictNullChecks": true,
     "baseUrl": ".",
     "types": [
       "webpack-env"
