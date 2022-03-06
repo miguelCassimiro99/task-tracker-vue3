@@ -1,8 +1,8 @@
 <template lang="pug">
-main.columns.is-gapless.is-multiline
+main.columns.is-gapless.is-multiline(:class="{ 'modo-escuro': modoEscuroAtivo }")
   .column.is-one-quarters
-    BarraLateral
-  .column.is-three-quarters
+    BarraLateral(@aoTemaAlterado="trocarTema")
+  .column.is-three-quarters.conteudo
     Formulario(@aoSalvarTarefa="salvarTarefa")
     .lista
       TarefaComponent(
@@ -36,20 +36,38 @@ export default defineComponent({
   data() {
     return {
       tarefas: [] as ITarefa[],
+      modoEscuroAtivo: false,
     }
   },
   methods: {
     salvarTarefa(tarefa: ITarefa): void {
       this.tarefas.push(tarefa);
+    },
+    trocarTema(modoEscuroAtivo: boolean): void {
+      this.modoEscuroAtivo = modoEscuroAtivo;
     }
   }
 
 });
 </script>
 
-<style scoped>
+<style>
 .lista {
   padding: 1.5rem;
+}
+
+main {
+  --bg-primario: #fff;
+  --text-primario: #000;
+}
+
+main.modo-escuro {
+  --bg-primario: #2b2d42;
+  --text-primario: #ddd;
+}
+
+.conteudo {
+  background: var(--bg-primario);
 }
 
 </style>

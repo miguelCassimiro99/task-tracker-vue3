@@ -1,6 +1,6 @@
 <template lang="pug">
 section
-  strong {{ tempoDecorrido }}
+  strong.display {{ tempoDecorrido }}
 </template>
 
 <script lang="ts">
@@ -25,5 +25,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.display {
+  color: var(--text-primario);
+}
 
 </style>

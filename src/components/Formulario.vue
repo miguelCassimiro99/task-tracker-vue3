@@ -1,5 +1,5 @@
 <template lang="pug">
-.box
+.box.formulario
   .columns
     .column.is-8(
       role="form"
@@ -42,6 +42,10 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style>
+.formulario {
+  color: var(--text-primario);
+  background: var(--bg-primario);
+}
 
 </style>
