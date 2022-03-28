@@ -46,9 +46,14 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style>
 .projetos {
   padding: 1.25rem;
+}
+
+.projetos h1, .projetos .label {
+  color: var(--text-primario);
+  background: var(--bg-primario);
 }
 
 </style>
