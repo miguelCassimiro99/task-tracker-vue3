@@ -21,28 +21,30 @@ section.projetos
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue";
-import IProjeto from "@/interfaces/IProjeto";
+import {computed, defineComponent} from "vue";
+import {useStore} from "@/store";
 
 export default defineComponent({
   name: 'ProjetosView',
   data() {
     return {
       nomeDoProjeto: '',
-      projetos: [] as IProjeto[],
     };
   },
   methods: {
     salvarProjeto ():void {
       // para salvar um projeto é necessário antes definir como é o projeto
-      const projeto: IProjeto = {
-        nome: this.nomeDoProjeto,
-        id: new Date().toISOString()
-      }
-      this.projetos.push(projeto);
+      this.store.commit('ADICIONA_PROJETO', this.nomeDoProjeto)
       this.nomeDoProjeto = '';
     }
-  }
+  },
+  setup () {
+    const store = useStore()
+    return {
+      store,
+      projetos: computed(() => store.state.projetos)
+    }
+  },
 })
 </script>
 
