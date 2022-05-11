@@ -1,6 +1,5 @@
 <template lang="pug">
-section.projetos
-  h1.title Projetos
+section
   form(@submit.prevent="salvarProjeto")
     .field
       label.label(for="nomeDoProjeto") Nome do Projeto
