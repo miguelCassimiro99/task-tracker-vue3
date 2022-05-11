@@ -22,7 +22,10 @@ const rotas: RouteRecordRaw[] = [
     {
         path: '/projetos/:id',
         name: 'Editar projeto',
-        component: Formulario
+        component: Formulario,
+        props: true
+        // props:true faz com que a rota possa receber a variavel que ela espera
+        // utilizando a prop com o mesmo nome que está sendo utilizada pelo componente
     }
 ];
 

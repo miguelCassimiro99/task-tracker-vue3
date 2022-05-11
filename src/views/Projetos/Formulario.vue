@@ -8,15 +8,25 @@ section.projetos
     .field
       button.button(type="submit") Salvar
   hr
-  div(v-if="projetos.length > 0" )
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue";
 import {useStore} from "@/store";
+import {defineComponent} from "vue";
 
 export default defineComponent({
   name: 'FormularioView',
+  props: {
+    id: {
+      type: String
+    }
+  },
+  mounted() {
+    if (this.id) {
+      const projeto = this.store.state.projetos.find(proj => proj.id === this.id)
+      this.nomeDoProjeto = projeto?.nome || ''
+    }
+  },
   data() {
     return {
       nomeDoProjeto: '',
@@ -25,7 +35,14 @@ export default defineComponent({
   methods: {
     salvarProjeto ():void {
       // para salvar um projeto é necessário antes definir como é o projeto
-      this.store.commit('ADICIONA_PROJETO', this.nomeDoProjeto)
+
+      if(this.id) this.store.commit('ALTERA_PROJETO', {
+        id: this.id,
+        nome: this.nomeDoProjeto
+      })
+
+      if(!this.id) this.store.commit('ADICIONA_PROJETO', this.nomeDoProjeto)
+
       this.nomeDoProjeto = '';
       this.$router.push('/projetos')
     }
