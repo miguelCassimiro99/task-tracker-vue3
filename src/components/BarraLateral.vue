@@ -10,7 +10,7 @@ header
           i.fas.fa-tasks.mr-1
           span Tarefas
       li
-        router-link.link(to="projetos")
+        router-link.link(to="/projetos")
           i.fas.fa-project-diagram
           span Projetos
 

@@ -1,23 +1,27 @@
 <template lang="pug">
 section.projetos
   h1.title Projetos
-  form(@submit.prevent="salvarProjeto")
-    .field
-      label.label(for="nomeDoProjeto") Nome do Projeto
-      input.input(type="text" id="nomeDoprojeto" v-model="nomeDoProjeto")
-    .field
-      button.button(type="submit") Salvar
-  hr
-  div(v-if="projetos.length > 0" )
+
+  router-link.button(to="/projetos/novo")
+    span.icon.is-small
+      i.fas.fa-plus
+    span Novo Projeto
+
+  div(v-if="projetos && projetos.length > 0" )
     table.table.is-fullwidth
       thead
         tr
           th ID
           th Nome
+          th Ações
       tbody
         tr(v-for="(projeto, index) in projetos" :key="index")
           td {{ projeto.id }}
           td {{ projeto.nome }}
+          td
+            router-link.button(:to="`/projetos/${projeto.id}`")
+              span.icon.is-small
+                i.fas.fa-pencil-alt
 </template>
 
 <script lang="ts">
@@ -26,22 +30,9 @@ import {useStore} from "@/store";
 
 export default defineComponent({
   name: 'ProjetosView',
-  data() {
-    return {
-      nomeDoProjeto: '',
-    };
-  },
-  methods: {
-    salvarProjeto ():void {
-      // para salvar um projeto é necessário antes definir como é o projeto
-      this.store.commit('ADICIONA_PROJETO', this.nomeDoProjeto)
-      this.nomeDoProjeto = '';
-    }
-  },
   setup () {
     const store = useStore()
     return {
-      store,
       projetos: computed(() => store.state.projetos)
     }
   },

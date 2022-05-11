@@ -19,6 +19,10 @@ export const store = createStore <Estado>({
                 nome: nomeDoProjeto
             } as IProjeto
             state.projetos.push(projeto)
+        },
+        'ALTERA_PROJETO'(state, projeto:IProjeto) {
+            const index = state.projetos.findIndex(proj => proj.id === projeto.id)
+            state.projetos[index] = projeto
         }
     }
 })
@@ -27,7 +31,7 @@ export const store = createStore <Estado>({
 * Para não termos que ficar chamando toda vez a Store
 * dentro de cada componente, podemos definir uma função
 * useStore que exporta um Store do tipo Estado (que definimos acima)
-* */
+*/
 export function useStore(): Store<Estado> {
     return vuexUseStore(key)
 }
