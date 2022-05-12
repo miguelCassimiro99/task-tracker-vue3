@@ -1,6 +1,5 @@
 <template lang="pug">
-section.projetos
-  h1.title Projetos
+section
   form(@submit.prevent="salvarProjeto")
     .field
       label.label(for="nomeDoProjeto") Nome do Projeto
@@ -12,6 +11,7 @@ section.projetos
 
 <script lang="ts">
 import {useStore} from "@/store";
+import { ALTERA_PROJETO, ADICIONA_PROJETO } from "@/store/tipo-mutacoes";
 import {defineComponent} from "vue";
 
 export default defineComponent({
@@ -36,12 +36,12 @@ export default defineComponent({
     salvarProjeto ():void {
       // para salvar um projeto é necessário antes definir como é o projeto
 
-      if(this.id) this.store.commit('ALTERA_PROJETO', {
+      if(this.id) this.store.commit(ALTERA_PROJETO, {
         id: this.id,
         nome: this.nomeDoProjeto
       })
 
-      if(!this.id) this.store.commit('ADICIONA_PROJETO', this.nomeDoProjeto)
+      if(!this.id) this.store.commit(ADICIONA_PROJETO, this.nomeDoProjeto)
 
       this.nomeDoProjeto = '';
       this.$router.push('/projetos')
