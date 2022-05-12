@@ -20,18 +20,28 @@ section
             router-link.button(:to="`/projetos/${projeto.id}`")
               span.icon.is-small
                 i.fas.fa-pencil-alt
+            button.button.ml-2.is-danger(@click="excluir(projeto.id)")
+              span.icon.is-small
+                i.fas.fa-trash
 </template>
 
 <script lang="ts">
 import {computed, defineComponent} from "vue";
 import {useStore} from "@/store";
+import { EXCLUIR_PROJETO } from "@/store/tipo-mutacoes";
 
 export default defineComponent({
   name: 'ListView',
+  methods: {
+    excluir(id: string) {
+      this.store.commit(EXCLUIR_PROJETO, id)
+    }
+  },
   setup () {
     const store = useStore()
     return {
-      projetos: computed(() => store.state.projetos)
+      projetos: computed(() => store.state.projetos),
+      store
     }
   },
 })
