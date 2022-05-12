@@ -1,26 +1,29 @@
 <template lang="pug">
 Formulario(@aoSalvarTarefa="salvarTarefa")
 .lista
+  BoxComponent.is-flex.is-justify-content-start.is-align-items-center(
+    v-if="!tarefas || tarefas.length === 0"
+  )
+    h1 Você não realizou nenhuma tarefa hoje
+    i.ml-2.fas.fa-face-frown
   TarefaComponent(
+    v-else
     v-for="(tarefa, index) in tarefas"
     :tarefa="tarefa"
     :key="index"
     :descricao="tarefa.descricao"
     :duracao="tarefa.duracaoEmSegundos"
   )
-  BoxComponent.is-flex.is-justify-content-start.is-align-items-center(
-    v-if="tarefas.length === 0"
-  )
-    h1 Você não realizou nenhuma tarefa hoje
-    i.ml-2.fas.fa-face-frown
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
 import Formulario from "@/components/Formulario.vue";
 import TarefaComponent from "@/components/Tarefa.vue";
 import ITarefa from "@/interfaces/ITarefa";
 import BoxComponent from "@/components/BoxComponent.vue";
+import { useStore } from '@/store';
+import { ADICIONA_TAREFA } from '@/store/tipo-mutacoes';
 
 export default defineComponent({
   name: 'App',
@@ -29,15 +32,19 @@ export default defineComponent({
     TarefaComponent,
     Formulario
   },
-  data() {
-    return {
-      tarefas: [] as ITarefa[],
-    }
-  },
   methods: {
     salvarTarefa(tarefa: ITarefa): void {
-      this.tarefas.push(tarefa);
+      //this.tarefas.push(tarefa);
+      this.store.commit(ADICIONA_TAREFA, tarefa)
     },
+  },
+
+  setup () {
+    const store = useStore()
+    return {
+      tarefas: computed(() => store.state.tarefas),
+      store
+    }
   }
 
 });
