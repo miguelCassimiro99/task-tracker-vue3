@@ -56,10 +56,11 @@ header {
   text-align: center;
 }
 
-@media only screen and (max-width: 768px) {
+@media (max-width: 768px) {
   header {
     padding: 1rem;
     height: auto;
+    max-height: 50vh;
   }
 }
 .panel li {

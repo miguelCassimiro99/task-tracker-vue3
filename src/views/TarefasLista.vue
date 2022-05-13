@@ -23,7 +23,8 @@ import TarefaComponent from "@/components/Tarefa.vue";
 import ITarefa from "@/interfaces/ITarefa";
 import BoxComponent from "@/components/BoxComponent.vue";
 import { useStore } from '@/store';
-import { ADICIONA_TAREFA } from '@/store/tipo-mutacoes';
+import { ADICIONA_TAREFA, NOTIFICAR } from '@/store/tipo-mutacoes';
+import { TipoNotificacao } from '@/interfaces/INotificacao';
 
 export default defineComponent({
   name: 'App',
@@ -35,6 +36,14 @@ export default defineComponent({
   methods: {
     salvarTarefa(tarefa: ITarefa): void {
       //this.tarefas.push(tarefa);
+      if (!tarefa.projeto) {
+        this.store.commit(NOTIFICAR, {
+          titulo: 'Erro',
+          texto: 'Ops! Não é possível salvar uma tarefa sem um projeto',
+          tipo: TipoNotificacao.FALHA
+        })
+        return
+      }
       this.store.commit(ADICIONA_TAREFA, tarefa)
     },
   },
