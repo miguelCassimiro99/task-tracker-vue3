@@ -1,7 +1,8 @@
 <template lang="pug">
 BoxComponent
   .columns
-    .column.is-7 {{ tarefa.descricao || 'Tarefa sem descrição' }}
+    .column.is-4 {{ tarefa.descricao || 'Tarefa sem descrição' }}
+    .column.is-3 {{ tarefa.projeto?.nome || 'Sem projeto' }}
     .column
       CronometroComponent(:tempo-em-segundos="tarefa.duracaoEmSegundos" )
 

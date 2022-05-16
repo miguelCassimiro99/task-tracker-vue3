@@ -36,14 +36,14 @@ export default defineComponent({
   methods: {
     salvarTarefa(tarefa: ITarefa): void {
       //this.tarefas.push(tarefa);
-      if (!tarefa.projeto) {
-        this.store.commit(NOTIFICAR, {
-          titulo: 'Erro',
-          texto: 'Ops! Não é possível salvar uma tarefa sem um projeto',
-          tipo: TipoNotificacao.FALHA
-        })
-        return
-      }
+      // if (!tarefa.projeto) {
+      //   this.store.commit(NOTIFICAR, {
+      //     titulo: 'Erro',
+      //     texto: 'Ops! Não é possível salvar uma tarefa sem um projeto',
+      //     tipo: TipoNotificacao.FALHA
+      //   })
+      //   return
+      // }
       this.store.commit(ADICIONA_TAREFA, tarefa)
     },
   },
