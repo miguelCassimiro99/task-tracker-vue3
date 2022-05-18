@@ -1,9 +1,11 @@
 import IProjeto from "@/interfaces/IProjeto";
 import {createStore, Store, useStore as vuexUseStore } from "vuex";
 import {InjectionKey} from "vue";
-import { ADICIONA_PROJETO, ADICIONA_TAREFA, ALTERA_PROJETO, ALTERA_TAREFA, EXCLUIR_PROJETO, EXCLUIR_TAREFA, NOTIFICAR } from "./tipo-mutacoes";
+import { ADICIONA_PROJETO, ADICIONA_TAREFA, ALTERA_PROJETO, ALTERA_TAREFA, DEFINIR_PROJETOS, EXCLUIR_PROJETO, EXCLUIR_TAREFA, NOTIFICAR } from "./tipo-mutacoes";
 import ITarefa from "@/interfaces/ITarefa";
 import { INotificacao } from "@/interfaces/INotificacao";
+import { ALTERAR_PROJETO, CADASTRAR_PROJETOS, OBTER_PROJETOS, REMOVER_PROJETO } from "./tipo-acoes";
+import http from '@/http'
 
 interface Estado {
     projetos: Array<IProjeto>
@@ -34,6 +36,9 @@ export const store = createStore <Estado>({
         [EXCLUIR_PROJETO](state, id) {
             state.projetos = state.projetos.filter(proj => proj.id != id)
         },
+        [DEFINIR_PROJETOS](state, projetos: IProjeto[]) {
+            state.projetos = projetos
+        },
         //Tarefas
         [ADICIONA_TAREFA](state, tarefa: ITarefa) {
             tarefa.id = new Date().toISOString()
@@ -55,7 +60,29 @@ export const store = createStore <Estado>({
                 state.notificacoes = []
             }, 3000)
         }
-    }
+    },
+    actions: {
+        [OBTER_PROJETOS] ({ commit }) {
+            http.get('projetos')
+                .then(res => {
+                    commit(DEFINIR_PROJETOS, res.data)
+                })
+        },
+        [CADASTRAR_PROJETOS] (context, nomeDoProjeto: string) {
+            return http.post('projetos', {
+                nome: nomeDoProjeto
+            })
+        },
+        [ALTERAR_PROJETO] (context, projeto: IProjeto) {
+            return http.put(`projetos/${projeto.id}`, projeto)
+        },
+        [REMOVER_PROJETO] ({commit}, id: string) {
+            return http.delete(`projetos/${id}`)
+                .then(() => {
+                    commit(EXCLUIR_PROJETO, id)
+                })
+        }
+    },
 })
 
 /*

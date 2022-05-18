@@ -23,8 +23,7 @@ import TarefaComponent from "@/components/Tarefa.vue";
 import ITarefa from "@/interfaces/ITarefa";
 import BoxComponent from "@/components/BoxComponent.vue";
 import { useStore } from '@/store';
-import { ADICIONA_TAREFA, NOTIFICAR } from '@/store/tipo-mutacoes';
-import { TipoNotificacao } from '@/interfaces/INotificacao';
+import { ADICIONA_TAREFA } from '@/store/tipo-mutacoes';
 
 export default defineComponent({
   name: 'App',
