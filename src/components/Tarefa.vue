@@ -1,6 +1,6 @@
 <template lang="pug">
 BoxComponent
-  .columns
+  .columns(@click="tarefaClicada")
     .column.is-4 {{ tarefa.descricao || 'Tarefa sem descrição' }}
     .column.is-3 {{ tarefa.projeto?.nome || 'Sem projeto' }}
     .column
@@ -16,6 +16,7 @@ import BoxComponent from "@/components/BoxComponent.vue";
 
 export default defineComponent({
   name: 'TarefaComponent',
+  emitis: ['aoTarefaClicada'],
   components: {
     BoxComponent,
     CronometroComponent,
@@ -25,6 +26,11 @@ export default defineComponent({
       type: Object as PropType<ITarefa>,
       required: true,
     }
+  },
+  methods: {
+    tarefaClicada(): void {
+      this.$emit('aoTarefaClicada', this.tarefa)
+    }
   }
 })
 
@@ -32,5 +38,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
+.columns {
+  cursor: pointer;
+}
 </style>

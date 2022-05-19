@@ -7,6 +7,7 @@ Formulario(@aoSalvarTarefa="salvarTarefa")
     h1 Você não realizou nenhuma tarefa hoje
     i.ml-2.fas.fa-face-frown
   TarefaComponent(
+    @aoTarefaClicada="selecionarTarefa"
     v-else
     v-for="(tarefa, index) in tarefas"
     :tarefa="tarefa"
@@ -14,6 +15,25 @@ Formulario(@aoSalvarTarefa="salvarTarefa")
     :descricao="tarefa.descricao"
     :duracao="tarefa.duracaoEmSegundos"
   )
+
+  //-Modal
+  .modal(:class="{ 'is-active': tarefaSelecionada }" v-if="tarefaSelecionada")
+    .modal-background
+    .modal-card
+      header.modal-card-head
+        p.modal-card-title Editar tarefa
+        button.delete(aria-label="close" @click="fecharModal")
+      section.modal-card-body
+        .field
+          label.label(for="descricaoDataTarefa") Descrição da tarefa
+          input.input(
+            type="text"
+            id="descricaoDataTarefa"
+            v-model="tarefaSelecionada.descricao"
+          )
+      footer.modal-card-foot
+        button.button.is-success(@click="atualizarTarefa(tarefaSelecionada)") Salvar alterações
+        button(@click="fecharModal").button Cancelar
 </template>
 
 <script lang="ts">
@@ -23,7 +43,9 @@ import TarefaComponent from "@/components/Tarefa.vue";
 import ITarefa from "@/interfaces/ITarefa";
 import BoxComponent from "@/components/BoxComponent.vue";
 import { useStore } from '@/store';
-import { ADICIONA_TAREFA } from '@/store/tipo-mutacoes';
+import useNotificador from "@/hooks/notificador"
+import { TipoNotificacao } from '@/interfaces/INotificacao';
+import { ALTERAR_TAREFA, CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS } from '@/store/tipo-acoes';
 
 export default defineComponent({
   name: 'App',
@@ -32,26 +54,48 @@ export default defineComponent({
     TarefaComponent,
     Formulario
   },
+  data() {
+    return {
+      tarefaSelecionada: null as ITarefa | null
+    }
+  },
   methods: {
+    atualizarTarefa(tarefa: ITarefa): void {
+      if (!tarefa) return
+      this.store.dispatch(ALTERAR_TAREFA, tarefa)
+        .then(() => {
+          this.notificar(TipoNotificacao.SUCESSO, 'Pronto', 'Tarefa atualizada')
+          this.fecharModal()
+        })
+        .catch(() => this.notificar(TipoNotificacao.FALHA, 'Ops', 'Não foi possível atualizar esta tarefa'))
+    },
+
+    fecharModal():void {
+      this.tarefaSelecionada = null
+    },
+    selecionarTarefa(tarefa: ITarefa): void {
+      this.tarefaSelecionada = tarefa
+    },
     salvarTarefa(tarefa: ITarefa): void {
-      //this.tarefas.push(tarefa);
-      // if (!tarefa.projeto) {
-      //   this.store.commit(NOTIFICAR, {
-      //     titulo: 'Erro',
-      //     texto: 'Ops! Não é possível salvar uma tarefa sem um projeto',
-      //     tipo: TipoNotificacao.FALHA
-      //   })
-      //   return
-      // }
-      this.store.commit(ADICIONA_TAREFA, tarefa)
+
+      if (!tarefa.projeto) {
+        return this.notificar(TipoNotificacao.FALHA, 'Falha', 'Não é possível finalizar uma tarefa sem um projeto')
+      }
+      this.store.dispatch(CADASTRAR_TAREFA, tarefa)
+        .then(() => this.notificar(TipoNotificacao.SUCESSO, 'Excelente', 'Você finalizou uma tarefa'))
+        .catch(() => this.notificar(TipoNotificacao.FALHA, 'Ops', 'Não foi possível cadastrar esta tarefa'))
     },
   },
 
   setup () {
     const store = useStore()
+    const {notificar} = useNotificador()
+    store.dispatch(OBTER_TAREFAS)
+    store.dispatch(OBTER_PROJETOS)
     return {
       tarefas: computed(() => store.state.tarefas),
-      store
+      store,
+      notificar
     }
   }
 

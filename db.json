@@ -1,12 +1,19 @@
 {
   "projetos": [
     {
-      "nome": "Funciona",
-      "id": 4
-    },
+      "id": 5,
+      "nome": "Alura Tracker"
+    }
+  ],
+  "tarefas": [
     {
-      "nome": "Alura Tracker",
-      "id": 5
+      "duracaoEmSegundos": 2,
+      "descricao": "Homologação de CSS",
+      "projeto": {
+        "id": 5,
+        "nome": "Alura Tracker"
+      },
+      "id": 1
     }
   ]
 }
