@@ -1,19 +1,45 @@
 {
   "projetos": [
     {
-      "id": 5,
+      "id": 1,
       "nome": "Alura Tracker"
+    },
+    {
+      "id": 2,
+      "nome": "UmDois 2.0"
+    },
+    {
+      "id": 3,
+      "nome": "Homolog"
     }
   ],
   "tarefas": [
     {
-      "duracaoEmSegundos": 2,
-      "descricao": "Homologação de CSS",
+      "id": 1,
+      "duracaoEmSegundos": 4500,
+      "descricao": "Dividir store em módulos",
       "projeto": {
-        "id": 5,
+        "id": 1,
         "nome": "Alura Tracker"
+      }
+    },
+    {
+      "duracaoEmSegundos": 3,
+      "descricao": "Terminar Carrossel",
+      "projeto": {
+        "id": 2,
+        "nome": "UmDois"
       },
-      "id": 1
+      "id": 2
+    },
+    {
+      "duracaoEmSegundos": 2,
+      "descricao": "Teste",
+      "projeto": {
+        "nome": "Teste",
+        "id": 3
+      },
+      "id": 3
     }
   ]
 }
