@@ -2,7 +2,7 @@
   "projetos": [
     {
       "id": 1,
-      "nome": "Alura Tracker"
+      "nome": "Alura Tracker 2.1"
     },
     {
       "id": 2,
@@ -10,14 +10,18 @@
     },
     {
       "id": 3,
-      "nome": "Homolog"
+      "nome": "Bytebank"
+    },
+    {
+      "id": 4,
+      "nome": "Padrões de projeto"
     }
   ],
   "tarefas": [
     {
       "id": 1,
       "duracaoEmSegundos": 4500,
-      "descricao": "Dividir store em módulos",
+      "descricao": "Dividir store em módulos e escopo",
       "projeto": {
         "id": 1,
         "nome": "Alura Tracker"
@@ -40,6 +44,15 @@
         "id": 3
       },
       "id": 3
+    },
+    {
+      "duracaoEmSegundos": 7,
+      "descricao": "Refactor",
+      "projeto": {
+        "id": 2,
+        "nome": "UmDois 2.0"
+      },
+      "id": 4
     }
   ]
 }

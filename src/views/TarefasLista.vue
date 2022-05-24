@@ -6,15 +6,24 @@ Formulario(@aoSalvarTarefa="salvarTarefa")
   )
     h1 Você não realizou nenhuma tarefa hoje
     i.ml-2.fas.fa-face-frown
-  TarefaComponent(
-    @aoTarefaClicada="selecionarTarefa"
-    v-else
-    v-for="(tarefa, index) in tarefas"
-    :tarefa="tarefa"
-    :key="index"
-    :descricao="tarefa.descricao"
-    :duracao="tarefa.duracaoEmSegundos"
-  )
+  
+  section(v-else)
+    .field
+      p.control.has-icons-left.has-icons-right
+        input.input(type="text" placeholder="filtrar tarefas")
+        span.icon.is-small.is-left
+          i.fas.fa-search
+        span.icon.is-small.is-right
+          i.fas.fa-check
+
+    TarefaComponent(
+      @aoTarefaClicada="selecionarTarefa"
+      v-for="(tarefa, index) in tarefas"
+      :tarefa="tarefa"
+      :key="index"
+      :descricao="tarefa.descricao"
+      :duracao="tarefa.duracaoEmSegundos"
+    )
 
   //-Modal
   .modal(:class="{ 'is-active': tarefaSelecionada }" v-if="tarefaSelecionada")
