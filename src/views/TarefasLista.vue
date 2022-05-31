@@ -10,7 +10,7 @@ Formulario(@aoSalvarTarefa="salvarTarefa")
   section(v-else)
     .field
       p.control.has-icons-left.has-icons-right
-        input.input(type="text" placeholder="filtrar tarefas")
+        input.input(type="text" placeholder="filtrar tarefas" v-model="filtro")
         span.icon.is-small.is-left
           i.fas.fa-search
         span.icon.is-small.is-right
@@ -46,7 +46,7 @@ Formulario(@aoSalvarTarefa="salvarTarefa")
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ref, watchEffect } from 'vue';
 import Formulario from "@/components/Formulario.vue";
 import TarefaComponent from "@/components/Tarefa.vue";
 import ITarefa from "@/interfaces/ITarefa";
@@ -101,10 +101,24 @@ export default defineComponent({
     const {notificar} = useNotificador()
     store.dispatch(OBTER_TAREFAS)
     store.dispatch(OBTER_PROJETOS)
+
+    const filtro = ref("")
+
+    // const tarefas = computed(() =>
+    //   store.state.tarefa.tarefas.filter(
+    //     (t) => !filtro.value || t.descricao.includes(filtro.value)
+    //   )
+    // )
+
+    watchEffect(() => {
+      console.log(filtro)
+    })
+
     return {
       tarefas: computed(() => store.state.tarefa.tarefas),
       store,
-      notificar
+      notificar,
+      filtro
     }
   }
 
