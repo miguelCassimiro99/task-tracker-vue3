@@ -26,24 +26,21 @@ Formulario(@aoSalvarTarefa="salvarTarefa")
     :duracao="tarefa.duracaoEmSegundos"
   )
 
-  //-Modal
-  .modal(:class="{ 'is-active': tarefaSelecionada }" v-if="tarefaSelecionada")
-    .modal-background
-    .modal-card
-      header.modal-card-head
-        p.modal-card-title Editar tarefa
-        button.delete(aria-label="close" @click="fecharModal")
-      section.modal-card-body
-        .field
-          label.label(for="descricaoDataTarefa") Descrição da tarefa
-          input.input(
-            type="text"
-            id="descricaoDataTarefa"
-            v-model="tarefaSelecionada.descricao"
-          )
-      footer.modal-card-foot
-        button.button.is-success(@click="atualizarTarefa(tarefaSelecionada)") Salvar alterações
-        button(@click="fecharModal").button Cancelar
+  ModalComponent(:mostrar="tarefaSelecionada != null")
+    header.modal-card-head
+      p.modal-card-title Editar tarefa
+      button.delete(aria-label="close" @click="fecharModal")
+    section.modal-card-body
+      .field
+        label.label(for="descricaoDataTarefa") Descrição da tarefa
+        input.input(
+          type="text"
+          id="descricaoDataTarefa"
+          v-model="tarefaSelecionada.descricao"
+        )
+    footer.modal-card-foot
+      button.button.is-success(@click="atualizarTarefa(tarefaSelecionada)") Salvar alterações
+      button(@click="fecharModal").button Cancelar
 </template>
 
 <script lang="ts">
@@ -56,13 +53,15 @@ import { useStore } from '@/store';
 import useNotificador from "@/hooks/notificador"
 import { TipoNotificacao } from '@/interfaces/INotificacao';
 import { ALTERAR_TAREFA, CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS } from '@/store/tipo-acoes';
+import ModalComponent from '@/components/ModalComponent.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
     BoxComponent,
     TarefaComponent,
-    Formulario
+    Formulario,
+    ModalComponent
   },
   data() {
     return {
