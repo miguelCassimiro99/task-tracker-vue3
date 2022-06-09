@@ -21,7 +21,7 @@
     {
       "id": 1,
       "duracaoEmSegundos": 4500,
-      "descricao": "Dividir store em módulos e escopo",
+      "descricao": "Store em módulos e escopo",
       "projeto": {
         "id": 1,
         "nome": "Alura Tracker"
