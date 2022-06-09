@@ -27,10 +27,10 @@ Formulario(@aoSalvarTarefa="salvarTarefa")
   )
 
   ModalComponent(:mostrar="tarefaSelecionada != null")
-    header.modal-card-head
+    template(v-slot:header)
       p.modal-card-title Editar tarefa
       button.delete(aria-label="close" @click="fecharModal")
-    section.modal-card-body
+    template(v-slot:body)
       .field
         label.label(for="descricaoDataTarefa") Descrição da tarefa
         input.input(
@@ -38,7 +38,7 @@ Formulario(@aoSalvarTarefa="salvarTarefa")
           id="descricaoDataTarefa"
           v-model="tarefaSelecionada.descricao"
         )
-    footer.modal-card-foot
+    template(v-slot:footer)
       button.button.is-success(@click="atualizarTarefa(tarefaSelecionada)") Salvar alterações
       button(@click="fecharModal").button Cancelar
 </template>

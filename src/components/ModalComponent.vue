@@ -2,7 +2,13 @@
 .modal(:class="{ 'is-active': mostrar }" v-if="mostrar")
   .modal-background
   .modal-card
-    slot
+    header.modal-card-head
+      slot(name="header")
+    section.modal-card-body
+      slot(name="body")
+    footer.modal-card-foot
+      slot(name="footer")
+
 
 </template>
 <script lang="ts">
