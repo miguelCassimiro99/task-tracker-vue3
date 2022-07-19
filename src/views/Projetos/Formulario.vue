@@ -12,9 +12,10 @@ section
 <script lang="ts">
 import { TipoNotificacao } from "@/interfaces/INotificacao";
 import {useStore} from "@/store";
-import { ALTERA_PROJETO, ADICIONA_PROJETO } from "@/store/tipo-mutacoes";
-import {defineComponent} from "vue";
+import {defineComponent, ref} from "vue";
 import useNotificador from "@/hooks/notificador"
+import { ALTERAR_PROJETO, CADASTRAR_PROJETOS } from "@/store/tipo-acoes";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: 'FormularioView',
@@ -23,40 +24,56 @@ export default defineComponent({
       type: String
     }
   },
-  mounted() {
-    if (this.id) {
-      const projeto = this.store.state.projetos.find(proj => proj.id === this.id)
-      this.nomeDoProjeto = projeto?.nome || ''
-    }
-  },
-  data() {
-    return {
-      nomeDoProjeto: '',
-    };
-  },
-  methods: {
-    salvarProjeto ():void {
-      // para salvar um projeto é necessário antes definir como é o projeto
-
-      if(this.id) this.store.commit(ALTERA_PROJETO, {
-        id: this.id,
-        nome: this.nomeDoProjeto
-      })
-
-      if(!this.id) this.store.commit(ADICIONA_PROJETO, this.nomeDoProjeto)
-
-      this.nomeDoProjeto = '';
-      this.$router.push('/projetos')
-
-      this.notificar(TipoNotificacao.SUCESSO, 'Excelente', 'O projeto foi salvo com sucesso')
-    },
-  },
-  setup () {
+  setup (props) {
     const store = useStore()
     const { notificar } = useNotificador()
+    const router = useRouter()
+
+    const nomeDoProjeto = ref("")
+    if (props.id) {
+      const projeto = store.state.projeto.projetos.find(proj => proj.id == props.id)
+      nomeDoProjeto.value = projeto?.nome || ''
+    }
+
+    const onSuccess = (action: string) => {
+      nomeDoProjeto.value = '';
+      router.push('/projetos')
+      notificar(TipoNotificacao.SUCESSO, 'Excelente', `O projeto foi ${action} com sucesso`)
+    }
+
+    const onError = (action: string) => {
+      nomeDoProjeto.value = '';
+      router.push('/projetos')
+      notificar(TipoNotificacao.FALHA, 'Falha', `Não foi possível ${action} o projeto`)
+    }
+
+    const salvarProjeto = ():void => {
+      // para salvar um projeto é necessário antes definir como é o projeto
+
+      if(props.id) store.dispatch(ALTERAR_PROJETO, {
+        id: props.id,
+        nome: nomeDoProjeto.value
+      })
+        .then(() => {
+          onSuccess('alterado')
+        })
+        .catch(() => {
+          onError('alterar')
+        })
+
+      if(!props.id) store.dispatch(CADASTRAR_PROJETOS, nomeDoProjeto.value)
+        .then(() => {
+          onSuccess('cadastrado')
+        })
+        .catch(err => {
+          onError('cadastrar')
+          console.log(err)
+        })
+    }
+
     return {
-      store,
-      notificar
+      nomeDoProjeto,
+      salvarProjeto
     }
   },
 })
